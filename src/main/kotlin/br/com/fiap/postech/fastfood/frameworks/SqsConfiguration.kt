@@ -38,7 +38,7 @@ class SQSConfig {
     ): AmazonSQSAsync {
         return AmazonSQSAsyncClientBuilder
             .standard()
-            .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsEndpoint, region))
+            .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsEndpoint.replace("/notificacao-pagamento-sync", ""), region))
             .build()
     }
 
