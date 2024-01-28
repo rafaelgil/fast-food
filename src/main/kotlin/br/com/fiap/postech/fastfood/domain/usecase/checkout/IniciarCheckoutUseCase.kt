@@ -1,5 +1,7 @@
 package br.com.fiap.postech.fastfood.domain.usecase.checkout
 
+import br.com.fiap.postech.fastfood.adapter.gateway.events.dtos.fromPedidoEntity
+import br.com.fiap.postech.fastfood.adapter.gateway.events.producer.SQSProducer
 import br.com.fiap.postech.fastfood.domain.entity.Checkout
 import br.com.fiap.postech.fastfood.domain.entity.Pedido
 import br.com.fiap.postech.fastfood.domain.repository.CheckoutRepository
@@ -10,7 +12,8 @@ import java.time.LocalDateTime
 class IniciarCheckoutUseCase(
     private val gerarPagamentoUseCase: GerarPagamentoUseCase,
     private val checkoutRepository: CheckoutRepository,
-    private val cadastrarPedidoUseCase: CadastrarPedidoUseCase
+    private val cadastrarPedidoUseCase: CadastrarPedidoUseCase,
+    private val sqsProducer: SQSProducer
 ) {
 
     fun executa(pedido: Pedido): Checkout {
@@ -24,10 +27,14 @@ class IniciarCheckoutUseCase(
     }
 
     private fun criarCheckout(pedido: Pedido): Checkout {
+
+        val pedidoEvent = fromPedidoEntity(pedido)
+        sqsProducer.sendProducaoMessage(pedidoEvent)
+
         val checkout = Checkout(
             pedido = pedido,
             data = LocalDateTime.now()
-        );
+        )
 
         return checkoutRepository.cadastrar(checkout)
     }
