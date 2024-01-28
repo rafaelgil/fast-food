@@ -2,6 +2,7 @@ package br.com.fiap.postech.fastfood.frameworks
 
 import br.com.fiap.postech.fastfood.adapter.gateway.*
 import br.com.fiap.postech.fastfood.adapter.gateway.apis.pagamento.PagamentoClient
+import br.com.fiap.postech.fastfood.adapter.gateway.events.producer.SQSProducer
 import br.com.fiap.postech.fastfood.adapter.gateway.jpa.*
 import br.com.fiap.postech.fastfood.domain.repository.*
 import br.com.fiap.postech.fastfood.domain.usecase.checkout.IniciarCheckoutUseCase
@@ -108,9 +109,10 @@ class Configuration {
     @Bean
     fun iniciarCheckoutUseCase(gerarPagamentoUseCase: GerarPagamentoUseCase,
                                checkoutRepository: CheckoutRepository,
-                               cadastrarPedidoUseCase: CadastrarPedidoUseCase
+                               cadastrarPedidoUseCase: CadastrarPedidoUseCase,
+                               sqsProducer: SQSProducer
     ): IniciarCheckoutUseCase {
-        return IniciarCheckoutUseCase(gerarPagamentoUseCase, checkoutRepository, cadastrarPedidoUseCase)
+        return IniciarCheckoutUseCase(gerarPagamentoUseCase, checkoutRepository, cadastrarPedidoUseCase, sqsProducer)
     }
 
     @Bean

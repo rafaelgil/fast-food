@@ -31,11 +31,9 @@ class IniciarCheckoutUseCase(
         val pedidoEvent = fromPedidoEntity(pedido)
         sqsProducer.sendProducaoMessage(pedidoEvent)
 
-        val checkout = Checkout(
+        return Checkout(
             pedido = pedido,
             data = LocalDateTime.now()
         )
-
-        return checkoutRepository.cadastrar(checkout)
     }
 }
