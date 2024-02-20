@@ -9,7 +9,6 @@ import br.com.fiap.postech.fastfood.domain.entity.Produto
 data class PedidoEvent(
         var id: UUID?,
         var itens: List<ItemEvent>?,
-        var dataRecebimento: LocalDateTime?,
         var status: String?,
 )
 
@@ -31,11 +30,10 @@ fun fromPedidoEntity(pedido: Pedido? = null): PedidoEvent {
         return PedidoEvent(
                 id = pedido.id,
                 itens = pedido.itens.map { fromItemPedidoEntity(it) },
-                dataRecebimento = pedido.dataRecebimento,
                 status = pedido.status.name,
         )
     }
-    return PedidoEvent(null, null, null, null)
+    return PedidoEvent(null, null, null)
 }
 
 fun fromItemPedidoEntity(item: ItemPedido): ItemEvent {

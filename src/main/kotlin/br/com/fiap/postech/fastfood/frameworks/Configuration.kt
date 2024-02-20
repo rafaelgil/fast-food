@@ -10,10 +10,7 @@ import br.com.fiap.postech.fastfood.domain.usecase.cliente.BuscarClientePorCPFUs
 import br.com.fiap.postech.fastfood.domain.usecase.cliente.CadastrarClienteUseCase
 import br.com.fiap.postech.fastfood.domain.usecase.pagamento.GerarPagamentoUseCase
 import br.com.fiap.postech.fastfood.domain.usecase.pagamento.MudarStatusPagamentoUseCase
-import br.com.fiap.postech.fastfood.domain.usecase.pedido.CadastrarPedidoUseCase
-import br.com.fiap.postech.fastfood.domain.usecase.pedido.ListarPedidoUseCase
-import br.com.fiap.postech.fastfood.domain.usecase.pedido.ListarTodosPedidosUseCase
-import br.com.fiap.postech.fastfood.domain.usecase.pedido.MudarStatusPedidoUseCase
+import br.com.fiap.postech.fastfood.domain.usecase.pedido.*
 import br.com.fiap.postech.fastfood.domain.usecase.produto.AtualizarProdutoUseCase
 import br.com.fiap.postech.fastfood.domain.usecase.produto.BuscarProdutoPorCategoriaUseCase
 import br.com.fiap.postech.fastfood.domain.usecase.produto.CadastrarProdutoUseCase
@@ -108,11 +105,9 @@ class Configuration {
 
     @Bean
     fun iniciarCheckoutUseCase(gerarPagamentoUseCase: GerarPagamentoUseCase,
-                               checkoutRepository: CheckoutRepository,
                                cadastrarPedidoUseCase: CadastrarPedidoUseCase,
-                               sqsProducer: SQSProducer
     ): IniciarCheckoutUseCase {
-        return IniciarCheckoutUseCase(gerarPagamentoUseCase, checkoutRepository, cadastrarPedidoUseCase, sqsProducer)
+        return IniciarCheckoutUseCase(gerarPagamentoUseCase, cadastrarPedidoUseCase)
     }
 
     @Bean
@@ -127,6 +122,13 @@ class Configuration {
         pedidoRepository: PedidoRepository
     ): ListarTodosPedidosUseCase {
         return ListarTodosPedidosUseCase(pedidoRepository)
+    }
+
+    @Bean
+    fun enviaPedidoParaProducaoUsecase(pedidoRepository: PedidoRepository,
+                                       sqsProducer: SQSProducer
+    ): EnviaPedidoParaProducaoUsecase {
+        return EnviaPedidoParaProducaoUsecase(pedidoRepository, sqsProducer)
     }
 
     @Bean
