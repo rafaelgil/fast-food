@@ -36,7 +36,6 @@ dependencies {
 	implementation("software.amazon.awssdk:sqs:2.16.24")
 	implementation("com.amazonaws:aws-java-sdk-core:1.11.589")
 	implementation("com.amazonaws:aws-java-sdk:1.11.584")
-	implementation("software.amazon.awssdk:secretsmanager:2.16.24")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -1,6 +1,5 @@
 package br.com.fiap.postech.fastfood.adapter.presenter
 
-import br.com.fiap.postech.fastfood.domain.entity.Pagamento
 import br.com.fiap.postech.fastfood.domain.entity.Pedido
 import br.com.fiap.postech.fastfood.domain.valueObjets.StatusPagamento
 import java.math.BigDecimal
@@ -20,16 +19,10 @@ data class DestinatarioPixRequest(
     val cidade: String
 )
 
-fun Pedido.toPagamentoRequest( destinatario: DestinatarioPixRequest) =
+fun Pedido.toPagamentoRequest(destinatario: DestinatarioPixRequest) =
     PedidoPagamentoRequest(
         id = id!!,
-        clienteId = cliente.id!!,
+        clienteId = clienteId,
         valor = valorTotal(),
         destinatarioPix = destinatario
-    )
-
-fun PagamentoResponse.toPagamento() =
-    Pagamento(
-        id = id,
-        status = StatusPagamento.valueOf(status)
     )

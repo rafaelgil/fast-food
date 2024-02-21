@@ -1,10 +1,10 @@
-package br.com.fiap.postech.fastfood.domain.usecase.checkout
+package br.com.fiap.postech.fastfood.domain.usecase.pedido
 
 import br.com.fiap.postech.fastfood.domain.entity.Pedido
 import br.com.fiap.postech.fastfood.domain.usecase.pagamento.GerarPagamentoUseCase
 import br.com.fiap.postech.fastfood.domain.usecase.pedido.CadastrarPedidoUseCase
 
-class IniciarCheckoutUseCase(
+class IniciarPedidoCheckoutUseCase(
     private val gerarPagamentoUseCase: GerarPagamentoUseCase,
     private val cadastrarPedidoUseCase: CadastrarPedidoUseCase,
 ) {

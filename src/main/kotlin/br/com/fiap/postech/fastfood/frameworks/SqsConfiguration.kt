@@ -16,15 +16,11 @@ import org.springframework.context.annotation.Primary
 import org.springframework.messaging.converter.MappingJackson2MessageConverter
 import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver
 import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver
-import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient
 
 
 @EnableSqs
 @Configuration
-class SQSConfig(
-    @Autowired
-    val secretsManagerClient: SecretsManagerClient
-) {
+class SqsConfiguration {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 

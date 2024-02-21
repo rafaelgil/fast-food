@@ -46,9 +46,8 @@ services:
       "
         sleep 20;                
         aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pagamento
-        aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pedido        
-        aws --endpoint-url=http://localstack:4566 secretsmanager create-secret --name SQS_ENDPOINT --secret-string 'http://localhost:4566'
-        aws --endpoint-url=http://localstack:4566 secretsmanager create-secret --name URL_PAGAMENTO --secret-string 'http://localhost:8090'
+        aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pedido
+        aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-status
       "
     depends_on:
       - localstack
@@ -76,12 +75,61 @@ services:
 #    depends_on:
 #      - postgres-compose
 
+
+# INFRA CLIENTE
+  postgres-compose-cliente:
+    image: postgres
+    environment:
+      POSTGRES_DB: fast-food-cliente
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Postgres2023!"
+      PGDATA: /data/postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-cliente:/data/postgres
+    networks:
+      - postgres-network-cliente
+
+  pgadmin-compose-cliente:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "fast-food@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2023!"
+    ports:
+      - "15433:80"
+    depends_on:
+      - postgres-compose-cliente
+    networks:
+      - postgres-network-cliente
+
+# INFRA PRODUTO
+  postgres-compose-produto:
+    image: postgres
+    environment:
+      POSTGRES_DB: fast-food-produto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Postgres2023!"
+      PGDATA: /data/postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-produto:/data/postgres
+    networks:
+      - postgres-network-produto
+
 networks:
   postgres-network:
+    driver: bridge
+  postgres-network-cliente:
+    driver: bridge
+  postgres-network-produto:
     driver: bridge
   mongo-compose-network:
       driver: bridge
 
 volumes:
   fast-food-postgres:
+  postgres-cliente:
+  postgres-produto:
   fast-food-mongodb:
