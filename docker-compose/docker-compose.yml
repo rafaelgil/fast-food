@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+# INFRA PEDIDO
   postgres-compose:
     image: postgres
     environment:
@@ -52,6 +53,7 @@ services:
     depends_on:
       - localstack
 
+# INFRA PAGAMENTO E PRODUCAO
   mongo:
     image: mongo:latest
     environment:
