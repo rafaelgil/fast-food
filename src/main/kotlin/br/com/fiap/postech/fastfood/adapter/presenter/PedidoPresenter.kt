@@ -1,12 +1,9 @@
 package br.com.fiap.postech.fastfood.adapter.presenter
 
-import br.com.fiap.postech.fastfood.adapter.gateway.schema.ClienteSchema
 import br.com.fiap.postech.fastfood.adapter.gateway.schema.ItemPedidoSchema
 import br.com.fiap.postech.fastfood.adapter.gateway.schema.PedidoSchema
-import br.com.fiap.postech.fastfood.domain.entity.Cliente
 import br.com.fiap.postech.fastfood.domain.entity.ItemPedido
 import br.com.fiap.postech.fastfood.domain.entity.Pedido
-import br.com.fiap.postech.fastfood.domain.entity.Produto
 import br.com.fiap.postech.fastfood.domain.valueObjets.StatusPedido
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
@@ -16,8 +13,8 @@ import java.util.*
 data class PedidoRequest(
     @JsonProperty("id")
     var id: UUID? = null,
-    @JsonProperty("id_cliente")
-    var clienteId: UUID? = null,
+    @JsonProperty("cliente_id")
+    var clienteId: UUID,
     @JsonProperty("itens")
     var itens: List<ItemPedidoRequest>? = mutableListOf(),
 )
@@ -25,7 +22,7 @@ data class PedidoRequest(
 data class PedidoResponse(
     @JsonProperty("id")
     var id: UUID? = null,
-    var cliente: ClienteResponse,
+    var clienteId: UUID,
     var status: String,
     @JsonProperty("itens")
     var itens: List<ItemPedidoResponse>? = mutableListOf(),
@@ -37,7 +34,7 @@ data class PedidoResponse(
 data class StatusPedidoResponse(
     @JsonProperty("id")
     var id: UUID? = null,
-    var nomeCliente: String,
+    //var nomeCliente: String,
     var dataCriacao: LocalDateTime,
     var dataRecebimento: LocalDateTime?,
     var status: String,
@@ -46,7 +43,7 @@ data class StatusPedidoResponse(
 
 
 data class ItemPedidoRequest(
-    @JsonProperty("id_produto")
+    @JsonProperty("produto_id")
     var produtoId: UUID,
     var quantidade: Int,
     var preco: BigDecimal
@@ -57,19 +54,11 @@ data class ItemPedidoResponse(
     var id: UUID,
     @JsonProperty("id_produto")
     var produtoId: UUID,
-    @JsonProperty("descricao_produto")
-    var descricaoProduto:String,
-    @JsonProperty("categoria_produto")
-    var categoriaProduto:String,
     var preco: BigDecimal,
     var quantidade: Int
 )
 
 data class ItemPedidoSimpleResponse(
-    @JsonProperty("descricao_produto")
-    var descricaoProduto:String,
-    @JsonProperty("categoria_produto")
-    var categoriaProduto:String,
     var preco: BigDecimal,
     var quantidade: Int
 )
@@ -77,7 +66,7 @@ data class ItemPedidoSimpleResponse(
 fun PedidoRequest.toPedido(): Pedido {
     return Pedido(
         id = UUID.randomUUID(),
-        cliente = Cliente(this.clienteId),
+        clienteId = clienteId,
         data = LocalDateTime.now(),
         status = StatusPedido.AGUARDANDO_PAGAMENTO
     ).apply {
@@ -88,7 +77,7 @@ fun PedidoRequest.toPedido(): Pedido {
 fun ItemPedidoRequest.toItem() =
     ItemPedido(
         id = null,
-        produto = Produto(id = this.produtoId),
+        produtoId = this.produtoId,
         quantidade = this.quantidade,
         preco = this.preco
     )
@@ -96,7 +85,7 @@ fun ItemPedidoRequest.toItem() =
 fun Pedido.toResponse() =
     PedidoResponse(
         id = this.id,
-        cliente = this.cliente.toClienteResponse(),
+        clienteId = clienteId,
         status = this.status.status,
         valorTotal = valorTotal(),
         pagamentoId = pagamentoId
@@ -107,7 +96,7 @@ fun Pedido.toResponse() =
 fun Pedido.toStatusResponse() =
     StatusPedidoResponse(
         id = this.id,
-        nomeCliente = this.cliente.nome!!.nome,
+        //nomeCliente = this.cliente.nome!!.nome,
         dataCriacao = this.data,
         status = this.status.status,
         dataRecebimento = this.dataRecebimento
@@ -116,24 +105,17 @@ fun Pedido.toStatusResponse() =
     }
 
 fun ItemPedido.toResponse(): ItemPedidoResponse {
-    val produto = this.produto.toProdutoResponse()
-
     return ItemPedidoResponse(
         id = this.id!!,
-        produtoId = produto.id,
-        descricaoProduto = produto.descricao,
-        categoriaProduto = produto.categoria,
+        produtoId = produtoId,
         preco = this.preco,
         quantidade = this.quantidade
     )
 }
 
 fun ItemPedido.toSimpleResponse(): ItemPedidoSimpleResponse {
-    val produto = this.produto.toProdutoResponse()
 
     return ItemPedidoSimpleResponse(
-        descricaoProduto = produto.descricao,
-        categoriaProduto = produto.categoria,
         preco = this.preco,
         quantidade = this.quantidade
     )
@@ -143,7 +125,7 @@ fun Pedido.toPedidoSchema() =
     PedidoSchema(
         id = this.id,
         data = this.data,
-        cliente = ClienteSchema(this.cliente.id, this.cliente.cpf!!.cpf, this.cliente.nome!!.nome, this.cliente.email!!.email),
+        clienteId = this.clienteId,
         status = this.status,
         dataRecebimento = this.dataRecebimento,
         pagamentoId = this.pagamentoId
@@ -155,7 +137,7 @@ fun ItemPedido.toItemPedidoSchema(pedidoSchema: PedidoSchema) =
     ItemPedidoSchema(
         id = this.id,
         pedido = pedidoSchema,
-        produto = this.produto.toProdutoSchema(this.produto.id),
+        produtoId = this.produtoId,
         preco = this.preco,
         quantidade = this.quantidade
     )
@@ -165,7 +147,7 @@ fun PedidoSchema.toPedido() =
         id = this.id,
         data = this.data,
         status = this.status,
-        cliente = this.cliente.toCliente(),
+        clienteId = this.clienteId,
         dataRecebimento = this.dataRecebimento,
         pagamentoId = this.pagamentoId
     ).apply {
@@ -175,7 +157,7 @@ fun PedidoSchema.toPedido() =
 fun ItemPedidoSchema.toItemPedido() =
     ItemPedido(
         id = this.id,
-        produto = this.produto.toProduto(),
+        produtoId = this.produtoId,
         quantidade = this.quantidade,
         preco = this.preco
     )

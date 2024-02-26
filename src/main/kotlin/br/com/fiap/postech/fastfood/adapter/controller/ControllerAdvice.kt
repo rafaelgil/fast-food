@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.context.request.WebRequest
 
 @ControllerAdvice
@@ -110,6 +111,16 @@ class ControllerAdvice() {
         )
 
         return ResponseEntity(erro, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    @ExceptionHandler(HttpClientErrorException::class)
+    fun handleHttpClientErrorException(ex: HttpClientErrorException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val erro = ErrorResponse(
+            ex.statusCode.value(),
+            ex.responseBodyAsString
+        )
+
+        return ResponseEntity(erro, ex.statusCode)
     }
 }
 

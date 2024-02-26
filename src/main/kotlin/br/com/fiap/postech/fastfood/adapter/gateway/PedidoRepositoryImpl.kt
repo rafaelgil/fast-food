@@ -29,8 +29,4 @@ class PedidoRepositoryImpl(
        return null
     }
 
-    override fun existePedido(id: UUID): Boolean {
-        TODO("Not yet implemented")
-    }
-
 }

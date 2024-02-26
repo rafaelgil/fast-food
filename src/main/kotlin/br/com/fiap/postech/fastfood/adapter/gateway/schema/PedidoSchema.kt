@@ -13,9 +13,8 @@ data class PedidoSchema(
     @OneToMany(mappedBy = "pedido", cascade = [CascadeType.ALL], fetch=FetchType.EAGER)
     var itens: List<ItemPedidoSchema> = mutableListOf(),
 
-    @ManyToOne
     @JoinColumn(name = "cliente_id")
-    var cliente: ClienteSchema,
+    var clienteId: UUID,
 
     @Column
     var data: LocalDateTime,
