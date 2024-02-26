@@ -1,7 +1,7 @@
 package br.com.fiap.postech.fastfood.adapter.presenter
 
-import br.com.fiap.postech.fastfood.adapter.gateway.schema.PagamentoSchema
 import br.com.fiap.postech.fastfood.domain.entity.Pagamento
+import br.com.fiap.postech.fastfood.domain.valueObjets.StatusPagamento
 import java.util.*
 
 data class PagamentoResponse(
@@ -9,20 +9,8 @@ data class PagamentoResponse(
     var status: String
 )
 
-fun Pagamento.toPagamentoSchema() =
-    PagamentoSchema(
-        id = this.id,
-        status = status
-    )
-
-fun PagamentoSchema.toPagamento() =
+fun PagamentoResponse.toPagamento() =
     Pagamento(
-        id = this.id,
-        status = this.status
-    )
-
-fun Pagamento.toResponse() =
-    PagamentoResponse(
-        id = this.id,
-        status = this.status.name,
+        id = id,
+        status = StatusPagamento.valueOf(status)
     )

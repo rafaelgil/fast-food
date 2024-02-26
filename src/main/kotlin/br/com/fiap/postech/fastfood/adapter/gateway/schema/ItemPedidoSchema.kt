@@ -16,9 +16,7 @@ data class ItemPedidoSchema (
     @JoinColumn(name = "pedido_id")
     var pedido: PedidoSchema,
 
-    @ManyToOne
-    @JoinColumn(name = "produto_id")
-    var produto: ProdutoSchema,
+    var produtoId: UUID,
 
     @Column
     var preco: BigDecimal,
@@ -27,6 +25,6 @@ data class ItemPedidoSchema (
     var quantidade: Int
 ) {
     override fun toString(): String {
-        return "ItemPedidoSchema(id=$id, pedido=${pedido.id}, produto=${produto.id}, preco=$preco, quantidade=$quantidade)"
+        return "ItemPedidoSchema(id=$id, pedido=${pedido.id}, produto=${produtoId}, preco=$preco, quantidade=$quantidade)"
     }
 }

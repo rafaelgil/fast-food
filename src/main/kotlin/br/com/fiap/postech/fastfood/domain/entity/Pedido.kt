@@ -8,7 +8,7 @@ import java.util.*
 
 data class Pedido(
     var id: UUID? = null,
-    var cliente: Cliente,
+    var clienteId: UUID,
     var itens: List<ItemPedido> = mutableListOf(),
     var data: LocalDateTime,
     var dataRecebimento: LocalDateTime? = null,
@@ -24,9 +24,9 @@ data class Pedido(
                 mudarStatusRecebido()
             }
 
-            status == StatusPedido.EM_PREPARACAO -> {
+            /*status == StatusPedido.EM_PREPARACAO -> {
                 mudarStatusEmPreparacao()
-            }
+            }*/
 
             status == StatusPedido.PRONTO -> {
                 mudarStatusPronto()
@@ -51,16 +51,16 @@ data class Pedido(
         this.dataRecebimento = LocalDateTime.now()
     }
 
-    private fun mudarStatusEmPreparacao() {
+    /*private fun mudarStatusEmPreparacao() {
         if( this.status != StatusPedido.RECEBIDO) {
             lancarErroMudancaStatusIncorreto(StatusPedido.EM_PREPARACAO)
         }
 
         this.status = StatusPedido.EM_PREPARACAO
-    }
+    }*/
 
     private fun mudarStatusPronto() {
-        if( this.status != StatusPedido.EM_PREPARACAO) {
+        if( this.status != StatusPedido.RECEBIDO) {
             lancarErroMudancaStatusIncorreto(StatusPedido.PRONTO)
         }
 
@@ -83,7 +83,7 @@ data class Pedido(
 
 data class ItemPedido(
     var id: UUID? = null,
-    var produto: Produto,
+    var produtoId: UUID,
     var quantidade: Int,
     var preco: BigDecimal,
 )

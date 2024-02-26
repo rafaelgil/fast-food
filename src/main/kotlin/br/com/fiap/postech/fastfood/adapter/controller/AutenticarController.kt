@@ -1,7 +1,7 @@
-package br.com.fiap.postech.fastfood.adapter.controller
+/*package br.com.fiap.postech.fastfood.adapter.controller
 
 import br.com.fiap.postech.fastfood.adapter.presenter.*
-import br.com.fiap.postech.fastfood.domain.usecase.cliente.BuscarClientePorCPFUseCase
+import br.com.fiap.postech.fastfood.domain.usecase.cliente.BuscarClientePorId
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
@@ -15,7 +15,7 @@ import javax.crypto.SecretKey
 @RestController
 @RequestMapping("autenticar")
 class AutenticarController (
-    private val buscarClientePorCPFUseCase: BuscarClientePorCPFUseCase
+    private val buscarClientePorId: BuscarClientePorId
 ) {
 
     @GetMapping()
@@ -26,7 +26,7 @@ class AutenticarController (
         val keyBytes: ByteArray = Decoders.BASE64.decode(base64Secret)
         val CHAVE: SecretKey = Keys.hmacShaKeyFor(keyBytes)
 
-        val cliente = buscarClientePorCPFUseCase.executa(cpf).toClienteResponse()
+        val cliente = buscarClientePorId.executa(cpf).toClienteResponse()
 
         val jwtToken = Jwts.builder()
             .setSubject(cliente.cpf)
@@ -46,4 +46,4 @@ class AutenticarController (
 
         return response
     }
-}
+}*/
