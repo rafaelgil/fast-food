@@ -147,4 +147,25 @@ curl --request PUT \
 
 ### Pipeline 4
 
+### Orquestração Saga do pagamento e producao do pedido
+Segue abaixo o fluxo de execução da orquestração da saga do pagamento e produção do pedido:
+1. O sistema de pedido realiza uma chamada sincrona ao sistema de pagamento para gerar um QRCode.
+2. O sistema de pagamento recebe uma notificação de pagamento e envia um evento de pagamento para a fila "notificacao-pagamento".  
+3. O sistema de pedido recebe o evento de pagamento, atualiza o status do pedido para recebido e envia um evento de produção para a fila "notificacao-pedido".
+4. O sistema de produção recebe o evento de produção, atualiza o status do pedido para em produção e após terminar o pedido envia um evento de pedido pronto para a fila "notificacao-pedido-status".
+5. O sistema de pedido recebe o evento de pedido pronto e envia para o cliente
+
+Segue abaixo o fluxo de execução da orquestração da saga do pagamento e produção do pedido em cado de erro:
+1. Se houver algum erro no pagamento o sistema de pagamento envia um evento de pagamento falho para a fila "notificacao-pagamento-error".
+2. O sistema de pedido recebe o evento de pagamento falho e atualiza o status do pedido para cancelado.
+3. Se houver algum erro na produção o sistema de produção envia um evento de produção falha para a fila "notificacao-pedido-status-error".
+4. O sistema de pedido recebe o evento de produção falha e atualiza o status do pedido para cancelado.
+
+Imagem do fluxo de execução da orquestração da saga do pagamento e produção do pedido.
+![Orquestração Saga do pagamento e producao do pedido](/home/rgil/Documents/pos-tech/saga-pedido.png)
+
+
+
+
+
 
