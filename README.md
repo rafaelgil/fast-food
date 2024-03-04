@@ -162,6 +162,8 @@ Segue abaixo o fluxo de execução da orquestração da saga do pagamento e prod
 4. O sistema de pedido recebe o evento de produção falha e atualiza o status do pedido para cancelado.
 
 Imagem do fluxo de execução da orquestração da saga do pagamento e produção do pedido.
+![saga-pedido](https://github.com/rafaelgil/fast-food/assets/2104773/7c048900-2b8f-4267-9676-0563fc37a743)
+
 ![Orquestração Saga do pagamento e producao do pedido](/home/rgil/Documents/pos-tech/saga-pedido.png)
 
 
