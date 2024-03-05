@@ -155,7 +155,7 @@ Segue abaixo o fluxo de execução da orquestração da saga do pagamento e prod
 4. O sistema de produção recebe o evento de produção, atualiza o status do pedido para em produção e após terminar o pedido envia um evento de pedido pronto para a fila "notificacao-pedido-status".
 5. O sistema de pedido recebe o evento de pedido pronto e envia para o cliente
 
-Segue abaixo o fluxo de execução da orquestração da saga do pagamento e produção do pedido em cado de erro:
+Segue abaixo o fluxo de execução da orquestração da saga do pagamento e produção do pedido em caso de erro:
 1. Se houver algum erro no pagamento o sistema de pagamento envia um evento de pagamento falho para a fila "notificacao-pagamento-error".
 2. O sistema de pedido recebe o evento de pagamento falho e atualiza o status do pedido para cancelado.
 3. Se houver algum erro na produção o sistema de produção envia um evento de produção falha para a fila "notificacao-pedido-status-error".
