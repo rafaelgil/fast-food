@@ -145,9 +145,7 @@ curl --request PUT \
   --url http://localhost:8080/pedidos/eee0b41a-f582-4288-8548-9292ac95f2ec/mudar-status/confirmar-entrega
 ```
 
-### Pipeline 4
-
-### Orquestração Saga do pagamento e producao do pedido
+## Orquestração Saga do pagamento e producao do pedido
 Segue abaixo o fluxo de execução da orquestração da saga do pagamento e produção do pedido:
 1. O sistema de pedido realiza uma chamada sincrona ao sistema de pagamento para gerar um QRCode.
 2. O sistema de pagamento recebe uma notificação de pagamento e envia um evento de pagamento para a fila "notificacao-pagamento".  
@@ -164,7 +162,5 @@ Segue abaixo o fluxo de execução da orquestração da saga do pagamento e prod
 Imagem do fluxo de execução da orquestração da saga do pagamento e produção do pedido.
 ![Orquestração Saga do pagamento e producao do pedido](https://github.com/rafaelgil/fast-food/assets/2104773/7c048900-2b8f-4267-9676-0563fc37a743)
 
-
-
-
-
+### Saga escolhido
+Optamos pela implementação do padrão Saga Coreografada devido à sua simplicidade de implementação, especialmente no fluxo de pagamento e produção que envolve poucos serviços. A escolha por não ter um componente centralizado que coordena a comunicação entre os serviços foi um fator decisivo, uma vez que, se esse sistema falhar, toda a integração com os diversos sistemas será afetada. A documentação apresentada contribui para um melhor entendimento desse fluxo. Além disso, os sistemas apresentam um acoplamento fraco, já que a comunicação entre eles ocorre por meio de eventos.
