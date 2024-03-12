@@ -49,6 +49,7 @@ services:
         aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pagamento
         aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pedido
         aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-status
+        aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pagamento-error
       "
     depends_on:
       - localstack
