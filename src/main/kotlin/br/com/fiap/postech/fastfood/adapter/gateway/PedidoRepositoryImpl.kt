@@ -29,4 +29,8 @@ class PedidoRepositoryImpl(
        return null
     }
 
+    override fun buscarPorClienteIdEAguardandoPagamento(clienteId: UUID): List<Pedido> {
+        return pedidoRepositoryJpa.findByClienteIdAndStatus(clienteId).map{ it.toPedido() }
+    }
+
 }

@@ -13,4 +13,6 @@ interface PedidoRepositoryJpa : JpaRepository<PedidoSchema, UUID> {
     @Query("select p from pedido p where p.dataRecebimento is not null and p.status in (:status) order by p.dataRecebimento")
     fun findByPedidosRecebido(status: List<StatusPedido> = listOf(StatusPedido.PRONTO, StatusPedido.EM_PREPARACAO, StatusPedido.RECEBIDO))
 
+    fun findByClienteIdAndStatus(clienteId: UUID, statusPedido: StatusPedido = StatusPedido.AGUARDANDO_PAGAMENTO): List<PedidoSchema>
+
 }
