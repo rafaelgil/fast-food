@@ -35,6 +35,10 @@ data class Pedido(
             status == StatusPedido.FINALIZADO -> {
                 mudarStatusFinalizado()
             }
+
+            status == StatusPedido.CANCELADO -> {
+                mudarStatusCancelado()
+            }
         }
     }
 
@@ -73,6 +77,13 @@ data class Pedido(
         }
 
         this.status = StatusPedido.FINALIZADO
+    }
+
+    private fun mudarStatusCancelado() {
+        if( this.status != StatusPedido.AGUARDANDO_PAGAMENTO) {
+            lancarErroMudancaStatusIncorreto(StatusPedido.CANCELADO)
+        }
+        this.status = StatusPedido.CANCELADO
     }
 
     private fun lancarErroMudancaStatusIncorreto(status: StatusPedido) {

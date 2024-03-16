@@ -68,6 +68,12 @@ class Configuration {
     }
 
     @Bean
+    fun cancelarPedidosClienteUseCase(pedidoRepository: PedidoRepository
+    ): CancelarPedidosClienteUseCase {
+        return CancelarPedidosClienteUseCase(pedidoRepository)
+    }
+
+    @Bean
     fun restTemplate(): RestTemplate {
         return RestTemplate()
     }
