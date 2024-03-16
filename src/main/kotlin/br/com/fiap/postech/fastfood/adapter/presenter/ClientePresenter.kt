@@ -6,5 +6,6 @@ data class ClienteResponse (
     val id: UUID,
     val cpf: String,
     val nome: String,
-    val email: String
+    val email: String,
+    val status: String
 )

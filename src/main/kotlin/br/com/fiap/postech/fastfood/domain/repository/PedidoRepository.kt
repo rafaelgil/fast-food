@@ -9,4 +9,5 @@ interface PedidoRepository {
     fun atualizar(pedido: Pedido): Pedido
     fun listarPedidosRecebidos(): List<Pedido>
     fun buscarPorId(id: UUID): Pedido?
+    fun buscarPorClienteIdEAguardandoPagamento(clienteId: UUID): List<Pedido>
 }

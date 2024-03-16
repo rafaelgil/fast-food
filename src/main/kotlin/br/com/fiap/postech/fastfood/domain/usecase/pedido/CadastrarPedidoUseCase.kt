@@ -3,6 +3,7 @@ package br.com.fiap.postech.fastfood.domain.usecase.pedido
 import br.com.fiap.postech.fastfood.adapter.gateway.apis.cliente.ClienteClient
 import br.com.fiap.postech.fastfood.adapter.gateway.apis.produto.ProdutoClient
 import br.com.fiap.postech.fastfood.domain.entity.Pedido
+import br.com.fiap.postech.fastfood.domain.exception.ClienteInativoException
 import br.com.fiap.postech.fastfood.domain.exception.ProdutoPrecoException
 import br.com.fiap.postech.fastfood.domain.repository.PedidoRepository
 
@@ -32,7 +33,13 @@ class CadastrarPedidoUseCase(
     }
 
     private fun validarCliente(pedido: Pedido ) {
-        clienteClient.consultarCliente(pedido.clienteId)
+        val cliente = clienteClient.consultarCliente(pedido.clienteId)
+
+        cliente.status.let {
+            if(it != "ATIVO") {
+                throw ClienteInativoException("Cliente ${pedido.clienteId} está inativo")
+            }
+        }
     }
 
 }
