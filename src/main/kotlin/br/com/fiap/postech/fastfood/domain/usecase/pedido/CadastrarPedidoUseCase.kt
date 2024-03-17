@@ -6,17 +6,22 @@ import br.com.fiap.postech.fastfood.domain.entity.Pedido
 import br.com.fiap.postech.fastfood.domain.exception.ClienteInativoException
 import br.com.fiap.postech.fastfood.domain.exception.ProdutoPrecoException
 import br.com.fiap.postech.fastfood.domain.repository.PedidoRepository
+import org.slf4j.LoggerFactory
 
 class CadastrarPedidoUseCase(
     private val pedidoRepository: PedidoRepository,
     private val clienteClient: ClienteClient,
     private val produtoClient: ProdutoClient
 ) {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     fun executa(pedido: Pedido): Pedido {
         validarCliente(pedido)
 
         validarItemProduto(pedido)
 
+        logger.info("Cadastrando pedido ${pedido}")
         return pedidoRepository.cadastrar(pedido)
     }
 
