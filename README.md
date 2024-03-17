@@ -89,6 +89,8 @@ Imagem do fluxo de execução da orquestração da saga do pagamento e produçã
 Optamos pela implementação do padrão Saga Coreografada devido à sua simplicidade de implementação, especialmente no fluxo de pagamento e produção que envolve poucos serviços. A escolha por não ter um componente centralizado que coordena a comunicação entre os serviços foi um fator decisivo, uma vez que, se esse sistema falhar, toda a integração com os diversos sistemas será afetada. A documentação apresentada contribui para um melhor entendimento desse fluxo. Além disso, os sistemas apresentam um acoplamento fraco, já que a comunicação entre eles ocorre por meio de eventos.
 
 ### Links
+Pasta com o vídeo da apresentação, relatório ZAP e RIPD 
+https://drive.google.com/drive/folders/1IrsVaKrz93rdKI3T6E3OLx8eRECKWt7x?usp=drive_link
 Apresentação SAGA
 https://drive.google.com/file/d/1NcjawOmb47IC9eSkRRBtV_rga9IUSXyY/view?usp=drive_link
 ZAP-Pagamento
