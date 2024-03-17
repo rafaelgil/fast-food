@@ -9,3 +9,9 @@ data class PagamentoEvent(
 ){
     constructor() : this(null, null, null)
 }
+
+data class PagamentoErrorEvent(
+    val id: UUID?
+){
+    constructor() : this(null)
+}

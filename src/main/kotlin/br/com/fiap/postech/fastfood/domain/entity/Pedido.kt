@@ -83,6 +83,7 @@ data class Pedido(
         if( this.status != StatusPedido.AGUARDANDO_PAGAMENTO) {
             lancarErroMudancaStatusIncorreto(StatusPedido.CANCELADO)
         }
+
         this.status = StatusPedido.CANCELADO
     }
 
