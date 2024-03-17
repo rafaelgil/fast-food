@@ -73,6 +73,16 @@ class ControllerAdvice() {
         return ResponseEntity(erro, HttpStatus.NOT_FOUND)
     }
 
+    @ExceptionHandler(ClienteInativoException::class)
+    fun handleClienteInativoException(ex: ClienteInativoException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val erro = ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            ex.localizedMessage
+        )
+
+        return ResponseEntity(erro, HttpStatus.NOT_FOUND)
+    }
+
     @ExceptionHandler(DataIntegrityViolationException::class)
     fun handleIllegalArgumentException(ex: DataIntegrityViolationException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val erro = ErrorResponse(

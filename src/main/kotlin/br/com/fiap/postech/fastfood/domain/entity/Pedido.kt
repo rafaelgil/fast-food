@@ -80,6 +80,10 @@ data class Pedido(
     }
 
     private fun mudarStatusCancelado() {
+        if( this.status != StatusPedido.AGUARDANDO_PAGAMENTO) {
+            lancarErroMudancaStatusIncorreto(StatusPedido.CANCELADO)
+        }
+
         this.status = StatusPedido.CANCELADO
     }
 
