@@ -19,7 +19,7 @@ class PagamentoErrorConsumer(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @SqsListener(value = ["\${aws.queue.notificacao-pagamento.name}"])
+    @SqsListener(value = ["\${aws.queue.notificacao-pagamento-error.name}"])
     fun receiveMessage(message: String) {
         logger.info("Recebendo mensagem pagamento ${message}")
 
